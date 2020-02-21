@@ -1,7 +1,8 @@
 import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import Msg from './Components/Msg'
+import ColorfulMsg from './Components/ColorfulMsg';
+import CountButton from './Components/CountButton';
 
 // function App() {
 //   return (
@@ -32,7 +33,10 @@ const App = () => {
   return (
     <>
       <h2>React ハンズオン</h2>
-      <Msg />
+      <ColorfulMsg color='blue'>React は難しいなー</ColorfulMsg>
+      <ColorfulMsg color='red'>React は難しいなー</ColorfulMsg>
+      <ColorfulMsg color='green'>React は難しいなー</ColorfulMsg>
+      <CountButton />
     </>
   );
 }
