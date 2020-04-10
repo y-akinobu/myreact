@@ -1,43 +1,49 @@
-import React from 'react';
-// import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import ColorfulMsg from './Components/ColorfulMsg';
-import CountButton from './Components/CountButton';
+import { PuppyVM } from '@playpuppy/puppy2d';
+import { Button, Container, Row , Col} from 'react-bootstrap';
+import { PuppyEditor } from '@playpuppy/puppy-editor';
 
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// const msgStyle = {
-//   color: 'blue'
-// };
-
-const App = () => {
+function App() {
+  const [puppy, setPuppy] = useState(null as PuppyVM | null);
+  const [editor, setEditor] = useState(null as PuppyEditor | null);
+  useEffect(() => {
+    const puppyElement = document.getElementById('puppy-screen');
+    if (puppyElement) {
+      const puppy = new PuppyVM(puppyElement);
+      setPuppy(puppy);
+    }
+    const editorElement = document.getElementById('puppy-editor');
+    if (editorElement) {
+      const editor  = new PuppyEditor(editorElement);
+      editor.setModel("print('Hello')", "python");
+      setEditor(editor);
+    }
+  }, []);
   return (
-    <>
-      <h2>React ハンズオン</h2>
-      <ColorfulMsg color='blue'>React は難しいなー</ColorfulMsg>
-      <ColorfulMsg color='red'>React は難しいなー</ColorfulMsg>
-      <ColorfulMsg color='green'>React は難しいなー</ColorfulMsg>
-      <CountButton />
-    </>
+    <div className="App">
+      <Container style = {{maxWidth: "100vw", height: "100vh", margin: "0", padding: "0"}}>
+        <Row style = {{width: "100%", height: "100%"}}>
+          <Col>
+            <div
+              id = "puppy-screen"
+              style = {{width: "100%", height: "100%"}}
+            ></div>
+            <div style={{width: "100%", textAlign: "right", position: "absolute", bottom: "12px", right: "20px"}}>
+              <Button onClick = {() => puppy ? puppy.load(editor?.editor.getValue(), true): false}>
+                play
+              </Button>
+            </div>
+          </Col>
+          <Col>
+            <div
+              id = "puppy-editor"
+              style = {{width: "100%", height: "100%", textAlign: "left"}}
+            ></div>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
